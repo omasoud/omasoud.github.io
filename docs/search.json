@@ -18,7 +18,7 @@
     "href": "posts/penny/penny.html",
     "title": "penny precision",
     "section": "",
-    "text": "Code\n%matplotlib inline\nimport numpy as np\nfrom matplotlib import pyplot as plt"
+    "text": "Code\n%matplotlib inline\nimport numpy as np\nfrom matplotlib import pyplot as plt\n\n\n\n\nText(0.5, 1.0, 'A random walk')"
   },
   {
     "objectID": "posts/post-with-code/index.html",
