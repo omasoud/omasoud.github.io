@@ -294,13 +294,13 @@ True</code></pre>
 <p>32-bit unsigned integer is a viable option if we store the prices multiplied by 10000. Comparisons in this case are also straightforward using the comparison operators. The only limitation is that the maximum representable price is $429,496.7295. This is not a problem for most stocks with the exception of <a href="https://g.co/finance/BRK.A:NYSE">BRK.A</a>.</p>
 </div>
 </div>
-<section id="conclusions" class="level1">
-<h1>Conclusions</h1>
+<section id="conclusions" class="level3">
+<h3 class="anchored" data-anchor-id="conclusions">Conclusions</h3>
 <ul>
 <li>The market price data can be sub-penny with a granularity of $0.0001 (1/100th of a penny).</li>
 <li>The bid/ask prices are always multiples of $0.01 (when they are above $1).</li>
 <li>The price data is 64-bit floating point and can be represented as such.</li>
-<li>Representing the price data as 32-bit floating point is lossy and not possible without making strong assumptions about the maximum price.</li>
+<li>Representing the price data as 32-bit floating point is not possible losslessly without making strong assumptions about the maximum price.</li>
 <li>32-bit unsigned integer is lossless and has a much higher representable price ceiling than 32-bit floating point.</li>
 </ul>
 
