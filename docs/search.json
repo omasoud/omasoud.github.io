@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "blog",
-    "section": "",
-    "text": "penny precision\n\n\n\n\n\n\n\n\n\n\n \n\n\n\n\n  \n\n\n\n\nPost With Code\n\n\n\n\n\n\n\nnews\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nNov 29, 2022\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nNov 26, 2022\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -14,24 +7,24 @@
     "text": "About this blog"
   },
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "blog",
+    "section": "",
+    "text": "Sub-Penny Precision Handling of Financial Data\n\n\n\n\n\n\n\ncode\n\n\nanalysis\n\n\nfinance\n\n\n\n\nAnalysis of financial data sub-penny precision and how to deal with it.\n\n\n\n\n\n\nDec 1, 2022\n\n\nO. Masoud\n\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "posts/penny/penny.html",
     "href": "posts/penny/penny.html",
-    "title": "penny precision",
+    "title": "Sub-Penny Precision Handling of Financial Data",
     "section": "",
-    "text": "Code\n%matplotlib inline\nimport numpy as np\nfrom matplotlib import pyplot as plt\n\n\n\n\nText(0.5, 1.0, 'A random walk')"
+    "text": "When dealing with market data that is obtained from any source, it is important to understand the precision of the price data for two reasons. The first is that sometimes, comparisons between prices are needed to assign a probability to certain events. For example, to predict whether a buy limit order will be filled, the low price of the next time interval needs to be compared to the limit price of the order. Further, the comparison may need to conclude if the limit price will be reached, indicating a probability of execution, or crossed (i.e., the low price unmistakably reached below the limit price) indicating definite execution (with some unrelated caveats). The second reason has to do with data representation which has implications on the amount of storage needed as well as processing time. The possible choices are usually 32-bit vs 64-bit and integer vs floating point.\nAlthough sub-penny quoting is not allowed by the SEC for orders above $1, it does not prevent trades from happening at any price. It is therefore expected to see open, high, low, close (OHLC) prices that are not multiples of $0.01. Bid and ask OHLC prices, however, are expected to be multiples of $0.01.\nIn this post, I will explore the precision characteristics of stock price data that was obtained from a market data vendor and derive suitable data representation for it.\n\n\nThe data comprises 1-minute intervals for 44 symbols over a period of 2590 trading days (between 2012 and 2022). The total number of days from all stocks that have data is 94438 (which is 83% of trading days due to missing data, e.g., stocks that were not in existence during the entire period)\n\n\nLet us plot a histogram of the sub-penny values, with bin width of $0.00001 (1/1000th of a penny).\n\n\nCode\n# ohlc has shape (n_days, 3, 4): (n_days, [price,bid,ask], [open,high,low,close])\nfracs = np.modf(ohlc*100.0)[0]/100.0 # keep only sub-cent fractions\nsamples, step = np.linspace(start=0,stop=.01,num=1001,endpoint=True, retstep=True)\nbins=np.concatenate((samples-step/2, [samples[-1]+step/2]))\n# these bins have a .0001 width (x±.00005 where x is any multiple of .0001 between 0 and .01)\n\nfig=plt.figure(figsize=(10,6))\n\n# price histogram\nax=fig.add_subplot(211)\nax.hist(fracs[:,0,:].flatten(), bins=bins, histtype='step', linewidth=.5, log=True) # bins=1001 works too\nax.set_ylim(bottom=1.0)\n# set x tickmarks every .0001\nax.xaxis.set_minor_locator(MultipleLocator(.0001))\nax.xaxis.set_major_locator(MultipleLocator(.001))\nax.set_title('Price histogram')\n\n# bid/ask histogram\nax=fig.add_subplot(212)\nax.hist(fracs[:,1:,:].flatten(), bins=bins, histtype='step', linewidth=.5, log=True) # bins=1001 works too\nax.set_ylim(bottom=1.0)\n# set x tickmarks every .0001\nax.xaxis.set_minor_locator(MultipleLocator(.0001))\nax.xaxis.set_major_locator(MultipleLocator(.001))\nax.set_title('Bid/ask histogram')\n\nplt.tight_layout()\n\n\n\n\n\nTwo observations can be made from the histograms. First, the prices occur at 0.0001 intervals (1/100th of a penny). We know this because the histogram has 10 times more bins and all but those 100 are empty. Second, the bid/ask prices, as expected, are multiples of $0.01. We also see that the bin surrounding $0.01 is nonempty which means that the prices may have some numeric precision fluctuation around their expected discrete values. But this is likely due to we computed the sub-penny fractions (which involved multiplying by 100). To verify that, we can compare the original data to its rounded (to 4 decimals for price and to 2 decimals for bid/ask) version:\n\n# price\nprint(np.array_equal(ohlc[:,0,:], np.round(ohlc[:,0,:], decimals=4)))\n# bid/ask\nprint(np.array_equal(ohlc[:,1:,:], np.round(ohlc[:,1:,:], decimals=2)))\n\nTrue\nTrue\n\n\nLets talk about data representation. The data source is 64-bit floating point and as such, np.float64 numpy arrays will work fine. When comparing two values for reach or cross and strictly cross (from above), the <= and < operators can used respectively. Had there been noise due to numeric precision, the following tests (which also work when there is no noise) are guaranteed to work given what we know about the multiple of $0.0001 price precision of this data:\n\na reaches or crosses b from above: a < b + 0.00005\na strictly crosses b from above: a < b - 0.00005\n\nIt is not possible, however, to preserve the inherent precision of the data by using 32-bit floating point without making strong assumptions about the maximum price. The following example illustrates this:\n\nprint(np.float32(1026.4101)==np.float32(1026.4102))\nprint(np.float32(1026.41)==np.float32(1026.41005))\n\nTrue\nTrue\n\n\n\n\n32-bit unsigned integer is a viable option if we store the prices multiplied by 10000. Comparisons are also straightforward using the comparison operators. The only limitation is that the maximum representable price is $429,496.7295. This is not a problem for most stocks with the exception of BRK.A.\n\n\n\nConclusions\n\nThe market price data can be sub-penny with a granularity of $0.0001 (1/100th of a penny).\nThe bid/ask prices are always multiples of $0.01.\nThe price data is 64-bit floating point and can be represented as such.\nRepresenting the price data as 32-bit floating point is lossy and not possible without making strong assumptions about the maximum price.\n32-bit unsigned integer is lossless and has a much higher representable price ceiling than 32-bit floating point."
   },
   {
-    "objectID": "posts/post-with-code/index.html",
-    "href": "posts/post-with-code/index.html",
-    "title": "Post With Code",
+    "objectID": "posts/penny/test.html",
+    "href": "posts/penny/test.html",
+    "title": "blog",
     "section": "",
-    "text": "This is a post with executable code."
-  },
-  {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome To My Blog",
-    "section": "",
-    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+    "text": "# akljshd kkskdjfh alalakjlkjdasd"
   }
 ]
