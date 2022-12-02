@@ -231,34 +231,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>samples, step <span class="op">=</span> np.linspace(start<span class="op">=</span><span class="dv">0</span>,stop<span class="op">=</span><span class="fl">.01</span>,num<span class="op">=</span><span class="dv">1001</span>,endpoint<span class="op">=</span><span class="va">True</span>, retstep<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>bins<span class="op">=</span>np.concatenate((samples<span class="op">-</span>step<span class="op">/</span><span class="dv">2</span>, [samples[<span class="op">-</span><span class="dv">1</span>]<span class="op">+</span>step<span class="op">/</span><span class="dv">2</span>]))</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># these bins have a .0001 width (x±.00005 where x is any multiple of .0001 between 0 and .01)</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>fig<span class="op">=</span>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">6</span>))</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># price histogram</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ax<span class="op">=</span>fig.add_subplot(<span class="dv">211</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>ax.hist(fracs[:,<span class="dv">0</span>,:].flatten(), bins<span class="op">=</span>bins, histtype<span class="op">=</span><span class="st">'step'</span>, linewidth<span class="op">=</span><span class="fl">.5</span>, log<span class="op">=</span><span class="va">True</span>) <span class="co"># bins=1001 works too</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(bottom<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># set x tickmarks every .0001</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_minor_locator(MultipleLocator(<span class="fl">.0001</span>))</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">.001</span>))</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Price histogram'</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># bid/ask histogram</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>ax<span class="op">=</span>fig.add_subplot(<span class="dv">212</span>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>ax.hist(fracs[:,<span class="dv">1</span>:,:].flatten(), bins<span class="op">=</span>bins, histtype<span class="op">=</span><span class="st">'step'</span>, linewidth<span class="op">=</span><span class="fl">.5</span>, log<span class="op">=</span><span class="va">True</span>) <span class="co"># bins=1001 works too</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(bottom<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># set x tickmarks every .0001</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_minor_locator(MultipleLocator(<span class="fl">.0001</span>))</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">.001</span>))</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Bid/ask histogram'</span>)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># bins can also be set to just the value 1001 (which causes them to be computed automatically)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>fig<span class="op">=</span>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">6</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># price histogram</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>ax<span class="op">=</span>fig.add_subplot(<span class="dv">211</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>ax.hist(fracs[:,<span class="dv">0</span>,:].flatten(), bins<span class="op">=</span>bins, histtype<span class="op">=</span><span class="st">'step'</span>, linewidth<span class="op">=</span><span class="fl">.5</span>, log<span class="op">=</span><span class="va">True</span>) </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(bottom<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># set x tickmarks every .0001</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_minor_locator(MultipleLocator(<span class="fl">.0001</span>))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">.001</span>))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Price histogram'</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># bid/ask histogram</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>ax<span class="op">=</span>fig.add_subplot(<span class="dv">212</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>ax.hist(fracs[:,<span class="dv">1</span>:,:].flatten(), bins<span class="op">=</span>bins, histtype<span class="op">=</span><span class="st">'step'</span>, linewidth<span class="op">=</span><span class="fl">.5</span>, log<span class="op">=</span><span class="va">True</span>) </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(bottom<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># set x tickmarks every .0001</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_minor_locator(MultipleLocator(<span class="fl">.0001</span>))</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">.001</span>))</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Bid/ask histogram'</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="penny_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>Two observations can be made from the histograms. First, the prices occur at 0.0001 intervals (1/100th of a penny). We know this because the histogram has 10 times more bins and all but those 100 are empty. Second, the bid/ask prices, as expected, are multiples of $0.01. We also see that the bin surrounding $0.01 is nonempty which means that the prices may have some numeric precision fluctuation around their expected discrete values. But this is likely due to we computed the sub-penny fractions (which involved multiplying by 100). To verify that, we can compare the original data to its rounded (to 4 decimals for price and to 2 decimals for bid/ask) version:</p>
+<p>Two observations can be made from the histograms. First, the prices occur at 0.0001 intervals (1/100th of a penny). We know this because the histogram has 10 times more bins and all but those 100 are empty. Second, the bid/ask prices, as expected, are multiples of $0.01. We also see that the bin surrounding $0.01 is nonempty which means that the prices may have some numeric precision fluctuation around their expected discrete values. But this is likely due to how we computed the sub-penny fractions (which involved multiplying by 100). To verify that, we can compare the original data to its rounded (to 4 decimals for price and to 2 decimals for bid/ask) version:</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># price</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.array_equal(ohlc[:,<span class="dv">0</span>,:], np.<span class="bu">round</span>(ohlc[:,<span class="dv">0</span>,:], decimals<span class="op">=</span><span class="dv">4</span>)))</span>
@@ -269,7 +270,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 True</code></pre>
 </div>
 </div>
-<p>Lets talk about data representation. The data source is 64-bit floating point and as such, <code>np.float64</code> numpy arrays will work fine. When comparing two values for <em>reach or cross</em> and <em>strictly cross</em> (from above), the &lt;= and &lt; operators can used respectively. Had there been noise due to numeric precision, the following tests (which also work when there is no noise) are guaranteed to work given what we know about the multiple of $0.0001 price precision of this data:</p>
+<p>Let’s talk about data representation. The data source is 64-bit floating point and as such, <code>np.float64</code> numpy arrays will work fine. When comparing two values for <em>reach or cross</em> and <em>strictly cross</em> (from above), the &lt;= and &lt; operators can used respectively. Had there been noise due to numeric precision, the following tests (which also work when there is no noise) are guaranteed to work given what we know about the multiple of $0.0001 price precision of this data:</p>
 <ul>
 <li><code>a</code> <em>reaches or crosses</em> <code>b</code> from above: <code>a &lt; b + 0.00005</code></li>
 <li><code>a</code> <em>strictly crosses</em> <code>b</code> from above: <code>a &lt; b - 0.00005</code></li>
