@@ -542,7 +542,7 @@ no two horizontally or vertically adjacent cells contain the same integer.
 <span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    check_tightness(a,n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Applything this to the first 201 values of <span class="math inline">\(n\)</span> using the players handshake algorithm, we get the following:</p>
+<p>Applything this to the first 200 values of <span class="math inline">\(n\)</span> using the players handshake algorithm, we get the following:</p>
 <div class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">200</span>):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    verify_method(n, players_handshake_grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -551,7 +551,7 @@ no two horizontally or vertically adjacent cells contain the same integer.
 redundant last col for n=4</code></pre>
 </div>
 </div>
-<p>Similarly, applying this to the first 201 values of <span class="math inline">\(n\)</span> using the basic solution, we get the following:</p>
+<p>Similarly, applying this to the first 200 values of <span class="math inline">\(n\)</span> using the basic solution, we get the following:</p>
 <div class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">200</span>):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    verify_method(n, basic_solution_grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
