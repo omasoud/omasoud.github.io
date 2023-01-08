@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/grid-neighbors/grid-neighbors.html",
       "/posts/penny/penny.html"
     ]
   }

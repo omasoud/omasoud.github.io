@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.2.280">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -124,7 +124,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
-<link rel="canonical" href="https://www.crosstab.io/articles/porting-to-quarto/">
+<meta name="google-site-verification" content="KpZcBLezVI7qABB0-1Dlk7uj9t5p1PsLschCnmZjixA">
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -210,6 +210,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+<!-- An image of pennies -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="coins-912716_640.jpg" class="img-fluid figure-img" width="280"></p>
+</figure>
+</div>
 <p>When dealing with market data that is obtained from any source, it is important to understand the precision of the price data for two reasons. The first is that sometimes, comparisons between prices are needed to assign a probability to certain events. For example, to predict whether a buy limit order will be filled, the low price of the next time interval needs to be compared to the limit price of the order. Further, the comparison may need to conclude if the limit price will be reached, indicating a probability of execution, or crossed (i.e., the low price unmistakably reached below the limit price) indicating definite execution (with some unrelated caveats). The second reason has to do with data representation which has implications on the amount of storage needed (both in memory and on disk) as well as processing time. The possible choices are usually 32-bit vs 64-bit and integer vs floating point.</p>
 <p>Although sub-penny quoting is <a href="https://www.sec.gov/divisions/marketreg/subpenny612faq.htm">not allowed</a> by the SEC for orders above $1, it does not prevent trades from happening at any price. It is therefore expected to see open, high, low, close (OHLC) prices that are not multiples of $0.01. Bid and ask OHLC prices, however, are expected to be multiples of $0.01.</p>
 <p>In this post, I will explore the precision characteristics of stock price data that was obtained from a market data vendor and derive suitable data representation for it.</p>
